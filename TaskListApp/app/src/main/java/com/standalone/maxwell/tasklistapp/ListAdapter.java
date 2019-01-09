@@ -12,9 +12,12 @@ import android.widget.CompoundButton;
 
 import android.widget.TextView;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -75,68 +78,92 @@ public class ListAdapter extends BaseAdapter{
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder = null;
 
-        int rowType = getItemViewType(position);
-        if(convertView==null){
-            holder=new ViewHolder();
-            switch(rowType){
-                case TYPE_HEADER:{
-                    convertView = inflater.inflate(R.layout.listview_header,null);
-                    holder.view = (TextView)convertView.findViewById(R.id.text_header);
-                    break;
-                }
-                case TYPE_CONTENT:{
-                    convertView = inflater.inflate(R.layout.listview_content,null);
-                    holder.checkBox = (CheckBox) convertView.findViewById(R.id.textcheck_todo);
+        System.out.printf("Position: %s,Type: %s \n",position,getItemViewType(position)==TYPE_CONTENT?"Content":"Header");
 
-                    holder.checkBox.setText(((Todo) data.get(position)).text);
-                    holder.view = holder.checkBox;
-
-                    }
-            }
-            convertView.setTag(holder);
-
-            System.out.printf("Setting holder %s to %s \n",holder.view.getText(),position);
+        if(convertView==null) {
+            convertView = setupView(position);
         }
-        else{
-            holder = (ViewHolder)convertView.getTag();
-        }
-        switch(rowType){
-            case TYPE_CONTENT: {
-                holder.view.setText(((Todo)data.get(position)).text);
-                holder.checkBox.setChecked(((Todo) data.get(position)).isCompleted);
-                holder.checkBox.setTag(data.get(position));//need to update task item
-                holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        holder = (ViewHolder) convertView.getTag();
+
+        if(holder!=null) {
+            holder.view.setText(getElementString(position));
+            //setting content checkbox
+            if(getItemViewType(position)==TYPE_CONTENT){
+                CheckBox box =(CheckBox) holder.view;
+
+                box.setTag(getItem(position));
+                box.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        Todo focusedTodo = (Todo)buttonView.getTag();
-                        if(focusedTodo.isCompleted==isChecked)return;
-                        JsonObject obj = new JsonObject();
-                        obj.addProperty("todo_id",focusedTodo.id);
-                        System.out.println(obj);
-                        Ion.with(buttonView.getContext()).load("https://maxwell-tasklist.herokuapp.com/update")//That should be in main activity
-                                .setJsonObjectBody(obj).asJsonObject().setCallback(new FutureCallback<JsonObject>() {
+                        Todo todo = (Todo) buttonView.getTag();
+                        System.out.printf("%s:%s\n",isChecked,todo.isCompleted);
+                        if(isChecked==todo.isCompleted)return;
+                        System.out.printf("Click! from %s : %s\n",todo.text,todo.isCompleted);
+
+                        JsonObject object = new JsonObject();
+                        object.addProperty("todo_id",todo.id);
+                        Ion.with(buttonView.getContext())
+                                .load("https://maxwell-tasklist.herokuapp.com/update")
+                                .setJsonObjectBody(object).asJsonObject().setCallback(new FutureCallback<JsonObject>() {
                             @Override
                             public void onCompleted(Exception e, JsonObject result) {
-
+                                System.out.println(e);
                             }
                         });
+                        todo.isCompleted=isChecked;
                     }
-
                 });
-
-
-                break;}
-            case TYPE_HEADER:{holder.view.setText(((Project)data.get(position)).title);break;}
+                box.setChecked(((Todo)getItem(position)).isCompleted);
+            }
         }
 
         return convertView;
+
+    }
+
+
+    private String getElementString(int position){
+        int rowtype = getItemViewType(position);
+        switch(rowtype){
+            case TYPE_HEADER:{
+                return ((Project)getItem(position)).title;
+            }
+            case TYPE_CONTENT:{
+                Todo todo = (Todo)getItem(position);
+                //System.out.printf("%s:%s\n",todo.text,todo.isCompleted);
+                return todo.text;
+
+            }
+
+        }
+        return "";
+    }
+
+    private View setupView(int position){
+        int rowtype = getItemViewType(position);
+        View view = null;
+        ViewHolder holder  = new ViewHolder();
+        switch(rowtype) {
+            case TYPE_HEADER: {
+                view = inflater.inflate(R.layout.listview_header,null);
+
+                holder.view = view.findViewById(R.id.text_header);
+                break;
+            }
+
+            case TYPE_CONTENT:{
+                view = inflater.inflate(R.layout.listview_content,null);
+                //Going to use later conversion to checkbox
+                holder.view = view.findViewById(R.id.textcheck_todo);
+                break;
+            }
+        }
+        view.setTag(holder);
+        return view;
     }
 
     public static class ViewHolder{
         public TextView view = null;
-        public CheckBox checkBox = null;
+
     }
-
-
-
 }
