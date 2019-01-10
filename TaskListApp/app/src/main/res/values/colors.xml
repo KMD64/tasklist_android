@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="systemWhiteColor">#ffffff</color>
-    <color name="systemBlackColor">#3a3a48</color>
+    <color name="systemBlackColor">#000000</color>
     <color name="colorPrimaryDark">#3a3a48</color>
     <color name="colorPrimary">#077CA7</color>
     <color name="colorAccent">#3AAFDA</color>
     <color name="darkAccentColor">#077CA7</color>
-    <color name="backgroundColor">#F8F8F8</color>
+    <color name="backgroundColor">#f8f8f8</color>
     <color name="placeholderColor">#AAB0BC</color>
-    <color name="pinkSearch">#EF2C96</color>
-    <color name="systemShadow">#663E464F</color>
+    <color name="pinkSearch">#ef2c96</color>
+    <color name="systemShadow">#667c8084</color>
+
 </resources>

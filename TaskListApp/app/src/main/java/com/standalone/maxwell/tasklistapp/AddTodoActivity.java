@@ -1,47 +1,56 @@
 package com.standalone.maxwell.tasklistapp;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.TextInputEditText;
+
 import android.view.View;
+
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.Spinner;
 
-import com.google.gson.JsonObject;
-import com.koushikdutta.ion.Ion;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ListView;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 
 public class AddTodoActivity extends Activity {
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
     private String[] projects;
-    int selected=0;
+    private ListView list_view;
+    private int selected = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_todo);
+
         projects = this.getIntent().getExtras().getStringArray("list_projects");
 
-        Spinner spinner = (Spinner)findViewById(R.id.spinner_projects);
-        final ArrayAdapter<String> adapter_array = new ArrayAdapter<>(this,R.layout.projectlist_cell,R.id.project_cell);
+        list_view = findViewById(R.id.list_projects);
+        ArrayAdapter<String> adapter_array = new ArrayAdapter<>(this,R.layout.projectlist_cell,R.id.project_cell);
             adapter_array.addAll(projects);
-        spinner.setAdapter(adapter_array);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            if(!adapter_array.isEmpty()){
+        list_view.setAdapter(adapter_array);
+        list_view.setSelection(0);
+        list_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                selected = position;
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if(selected!= position) {
+                    selected = position;
+                }
+                System.out.println(id);
             }
         });
-        Button cancelButton = findViewById(R.id.button_cancel);
+        }
+
+        ImageButton cancelButton = findViewById(R.id.button_cancel);
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -49,11 +58,11 @@ public class AddTodoActivity extends Activity {
                 finish();
             }
         });
-        Button okButton = findViewById(R.id.button_ok);
+        ImageButton okButton = findViewById(R.id.button_ok);
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TextInputEditText text = findViewById(R.id.textinput_todo);
+                EditText text = findViewById(R.id.textinput_todo);
                 Intent intent = new Intent();
                 intent.putExtra("text",text.getText().toString());
                 intent.putExtra("selected",selected);

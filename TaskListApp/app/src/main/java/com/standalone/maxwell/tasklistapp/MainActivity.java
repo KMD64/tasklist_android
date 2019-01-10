@@ -26,21 +26,13 @@ import java.util.List;
 
 
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class MainActivity extends AppCompatActivity {
     private ListAdapter adapter_list;
     private List<Project> list_projects;
     private List<String> list_strings;
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        list_strings = new ArrayList<>();
-        adapter_list= new ListAdapter(this);
-        list_projects = new ArrayList<>();
-        setContentView(R.layout.activity_main);
-        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder().setDefaultFontPath("fonts/OpenSans-Light.ttf").build());
-
-        //Loading data
+    private void reloadData(){
         Ion.with(this)
                 .load(getString(R.string.server_domain) + getString(R.string.request_index))
                 .asJsonArray()
@@ -70,11 +62,11 @@ public class MainActivity extends AppCompatActivity {
                                         }
                                         else{
                                             if(result.toString()!="[]"){//Empty array
-                                            ArrayList<Todo> todos = new ArrayList<>();
-                                            for(JsonElement elem:result) {
-                                                Todo todo = new Gson().fromJson(elem, Todo.class);
-                                                System.out.println(todo.text);
-                                                todos.add(todo);
+                                                ArrayList<Todo> todos = new ArrayList<>();
+                                                for(JsonElement elem:result) {
+                                                    Todo todo = new Gson().fromJson(elem, Todo.class);
+                                                    System.out.println(todo.text);
+                                                    todos.add(todo);
                                                 }
                                                 for(Project project:list_projects){
                                                     System.out.println(project.title);
@@ -95,7 +87,23 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
 
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        list_strings = new ArrayList<>();
+        adapter_list = new ListAdapter(this);
+        list_projects = new ArrayList<>();
+        setContentView(R.layout.activity_main);
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder().setDefaultFontPath("fonts/OpenSans-Light.ttf").setFontAttrId(R.attr.fontPath).build());
+        reloadData();
 
         ListView lst = (ListView) findViewById(R.id.list_todo);
         lst.setAdapter(adapter_list);
@@ -108,6 +116,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
     private void loadFinished(Project prj){
         adapter_list.addHeaderItem(prj);
     }
@@ -141,8 +150,9 @@ public class MainActivity extends AppCompatActivity {
                         System.out.println(result);
 
                             Todo todo = new Gson().fromJson(result, Todo.class);
+
                             list_projects.get(data.getIntExtra("selected", 0)).todos.add(todo);
-                            adapter_list.insertContentItem(data.getIntExtra("selected", 0), todo);
+                            adapter_list.insertContentItem(todo.project_id, todo);
 
                     }
                 }

@@ -1,77 +1,135 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".AddTodoActivity">
+    android:background="@color/systemWhiteColor"
+    tools:ignore="MissingPrefix">
 
-
-    <LinearLayout
-        style="?android:attr/buttonBarStyle"
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="@dimen/action_bar_size">
 
-        <Button
-            android:id="@+id/button_cancel"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/button_cancel" />
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
 
-        <Button
-            android:id="@+id/button_ok"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/button_submit" />
-    </LinearLayout>
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/caption_add_todo"
+                android:textColor="@color/backgroundColor"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
+                android:id="@+id/button_cancel"
+                android:layout_width="45dp"
+                android:layout_height="0dp"
+                android:background="@android:color/transparent"
+                android:scaleX="0.4"
+                android:scaleY="0.4"
+                android:src="@drawable/back_icon"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <ImageButton
+                android:id="@+id/button_ok"
+                style="@style/Widget.AppCompat.ImageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:background="@android:color/transparent"
+                android:scaleX="0.35"
+                android:scaleY="0.35"
+                android:src="@drawable/done"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </android.support.constraint.ConstraintLayout>
+
+    </android.support.design.widget.AppBarLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="5pt"
-        android:layout_marginTop="5pt"
-        android:layout_marginRight="5pt"
-        android:layout_marginBottom="5pt"
+        android:layout_marginTop="@dimen/action_bar_size"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/textView3"
+            fontPath="fonts/OpenSans-Semibold.ttf"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/caption_add_todo"
-            android:textSize="30sp"
-            android:visibility="visible" />
+            android:layout_height="50dp"
+            android:background="@color/backgroundColor"
+            android:gravity="center_vertical"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:text="@string/task_label"
+            android:textAllCaps="true"
+            android:textColor="@color/systemBlackColor"
+            android:textSize="12sp" />
 
-        <Space
-            android:id="@+id/space"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <android.support.design.widget.TextInputEditText
+        <EditText
             android:id="@+id/textinput_todo"
+            style="@style/Widget.AppCompat.EditText"
+            android:layout_width="match_parent"
+            android:background="@drawable/edittext_border"
+            android:layout_height="44dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginBottom="20dp"
+            android:gravity="start|center_vertical"
+            android:hint="@string/placeholder_todo_name"
+            android:includeFontPadding="false"
+            android:inputType="text"
+            android:outlineProvider="paddedBounds"
+            android:paddingLeft="16dp" />
+
+        <TextView
+            android:id="@+id/textView5"
+            fontPath="fonts/OpenSans-Semibold.ttf"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/backgroundColor"
+            android:gravity="center_vertical"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:text="@string/placeholder_todo"
+            android:textAllCaps="true"
+            android:textColor="@color/systemBlackColor"
+            android:textSize="12sp" />
+
+        <ListView
+            android:id="@+id/list_projects"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Описание задачи" />
-
-        <Space
-            android:id="@+id/space2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <Spinner
-            android:id="@+id/spinner_projects"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:spinnerMode="dialog" />
+            android:background="@android:color/transparent"
+            android:baselineAligned="false"
+            android:choiceMode="singleChoice"
+            android:clickable="true"
+            android:dividerHeight="0dp"
+            android:drawSelectorOnTop="false"
+            android:listSelector="@color/systemShadow"
+            android:outlineProvider="none"
+            android:saveEnabled="true" />
 
     </LinearLayout>
 
-
-</LinearLayout>
+</android.support.design.widget.CoordinatorLayout>

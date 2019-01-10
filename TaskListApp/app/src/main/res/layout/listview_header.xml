@@ -1,24 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingPrefix"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark"
+    android:background="@color/systemWhiteColor"
     android:orientation="vertical">
 
     <TextView
+        fontPath="fonts/OpenSans-Semibold.ttf"
         android:id="@+id/text_header"
         android:layout_width="match_parent"
-        android:layout_height="20pt"
-        android:background="@color/colorPrimaryDark"
-        android:backgroundTint="@color/colorPrimaryDark"
-        android:backgroundTintMode="src_atop"
+        android:layout_height="45dp"
+        android:background="@color/backgroundColor"
+        android:backgroundTint="@color/backgroundColor"
         android:clickable="false"
-        android:paddingLeft="5pt"
-        android:paddingTop="3pt"
+        android:gravity="center_vertical"
+        android:paddingStart="8pt"
+        android:paddingEnd="8pt"
+        android:singleLine="true"
         android:text="TextView"
-        android:textAlignment="viewStart"
-        android:textColor="@color/systemWhiteColor"
-        android:textSize="24sp"
-        tools:background="@color/colorPrimaryDark" />
+        android:textAllCaps="true"
+        android:textColor="@color/systemBlackColor"
+        android:textIsSelectable="true"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:typeface="sans" />
 </LinearLayout>

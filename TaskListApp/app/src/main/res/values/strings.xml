@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">Задачи</string>
-    <string name="action_settings">Настройки</string>
-    <string name="caption_add_todo">Добавление задачи</string>
-    <string name="placeholder_todo_name">Описание задачи</string>
-    <string name="placeholder_todo">Группа</string>
+    <string name="task_label">Задача</string>
+    <string name="caption_add_todo">Новая задача</string>
+    <string name="placeholder_todo_name">Название задачи</string>
+    <string name="placeholder_todo">Категория</string>
     <string name="button_submit">Ок</string>
     <string name="button_cancel">Отмена</string>
     <string name="server_domain">https://maxwell-tasklist.herokuapp.com/</string>

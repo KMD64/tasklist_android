@@ -1,13 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingPrefix"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <CheckBox
-        android:id="@+id/textcheck_todo"
+        fontPath="fonts/OpenSans-Regular.ttf"
+        android:id="@+id/checktext_todo"
         android:layout_width="match_parent"
-        android:layout_height="20pt"
-        android:paddingTop="3pt"
-        android:text="Todo" />
+        android:layout_height="64dp"
+        android:layout_marginLeft="20dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:button="@drawable/checkbox_selector"
+        android:checked="false"
+        android:clickable="true"
+        android:fadingEdge="horizontal|vertical"
+        android:includeFontPadding="false"
+        android:paddingLeft="16dp"
+        android:text="Text"
+        android:textAlignment="textStart"
+        android:textAllCaps="false"
+        android:textSize="18sp"
+        />
+
 </LinearLayout>

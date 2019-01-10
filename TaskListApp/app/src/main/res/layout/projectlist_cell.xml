@@ -1,16 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingPrefix"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <TextView
+        fontPath="fonts/OpenSans-Regular.ttf"
         android:id="@+id/project_cell"
         android:layout_width="match_parent"
-        android:layout_height="20pt"
+        android:layout_height="64dp"
+        android:background="@android:color/transparent"
         android:fontFamily="sans-serif"
-        android:paddingLeft="5pt"
-        android:paddingTop="4pt"
+        android:gravity="center_vertical"
+        android:paddingLeft="32dp"
+        android:singleLine="true"
         android:text="TextView"
-        android:textAlignment="viewStart"
-        android:textSize="20sp" />
+        android:textSize="18sp" />
 </LinearLayout>

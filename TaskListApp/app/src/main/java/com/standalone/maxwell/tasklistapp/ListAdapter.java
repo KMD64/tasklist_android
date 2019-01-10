@@ -20,6 +20,8 @@ import com.koushikdutta.ion.Ion;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.ListIterator;
 
 public class ListAdapter extends BaseAdapter{
     public static final int TYPE_CONTENT=0;
@@ -28,7 +30,7 @@ public class ListAdapter extends BaseAdapter{
     private ArrayList<Integer> headerid = new ArrayList<>();
     private LayoutInflater inflater;
 
-
+    private int rowtype;
 
     public ListAdapter(Context context){
         inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -41,11 +43,19 @@ public class ListAdapter extends BaseAdapter{
             data.add(todo);
         notifyDataSetChanged();
     }
-    public void insertContentItem(final int prjpos, final Todo item){
-        data.add(headerid.get(prjpos+1),item);
-        if(prjpos<headerid.size()-1)
-        for(int i=prjpos+1;i<headerid.size();++i){
-            headerid.set(i,headerid.get(i)+1);
+    public void insertContentItem(int project_id, Todo item){
+        boolean found=false;
+        for(ListIterator<Integer> i = headerid.listIterator(); i.hasNext();){
+            int index=i.next();
+            if(!found) {
+                if (((Project) (data.get(index))).id == project_id) {
+                    data.add(index + 1, item);
+                    found = true;
+                }
+            }
+            else{
+                i.set(index+1);
+            }
         }
         notifyDataSetChanged();
     }
@@ -77,8 +87,8 @@ public class ListAdapter extends BaseAdapter{
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder = null;
-
-        System.out.printf("Position: %s,Type: %s \n",position,getItemViewType(position)==TYPE_CONTENT?"Content":"Header");
+        rowtype=getItemViewType(position);
+        System.out.printf("Position: %s,Type: %s \n",position,rowtype==TYPE_CONTENT?"Content":"Header");
 
         if(convertView==null) {
             convertView = setupView(position);
@@ -123,10 +133,9 @@ public class ListAdapter extends BaseAdapter{
 
 
     private String getElementString(int position){
-        int rowtype = getItemViewType(position);
         switch(rowtype){
             case TYPE_HEADER:{
-                return ((Project)getItem(position)).title;
+                return ((Project)getItem(position)).title.toUpperCase();
             }
             case TYPE_CONTENT:{
                 Todo todo = (Todo)getItem(position);
@@ -140,7 +149,6 @@ public class ListAdapter extends BaseAdapter{
     }
 
     private View setupView(int position){
-        int rowtype = getItemViewType(position);
         View view = null;
         ViewHolder holder  = new ViewHolder();
         switch(rowtype) {
@@ -154,7 +162,7 @@ public class ListAdapter extends BaseAdapter{
             case TYPE_CONTENT:{
                 view = inflater.inflate(R.layout.listview_content,null);
                 //Going to use later conversion to checkbox
-                holder.view = view.findViewById(R.id.textcheck_todo);
+                holder.view = view.findViewById(R.id.checktext_todo);
                 break;
             }
         }
