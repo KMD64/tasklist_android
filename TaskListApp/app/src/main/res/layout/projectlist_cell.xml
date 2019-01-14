@@ -7,14 +7,16 @@
     android:layout_height="match_parent">
 
     <TextView
-        fontPath="fonts/OpenSans-Regular.ttf"
         android:id="@+id/project_cell"
+        fontPath="fonts/OpenSans-Regular.ttf"
         android:layout_width="match_parent"
         android:layout_height="64dp"
-        android:background="@android:color/transparent"
+        android:drawableEnd="@drawable/selector_right"
         android:fontFamily="sans-serif"
         android:gravity="center_vertical"
+        android:outlineProvider="none"
         android:paddingLeft="32dp"
+        android:paddingEnd="32dp"
         android:singleLine="true"
         android:text="TextView"
         android:textSize="18sp" />

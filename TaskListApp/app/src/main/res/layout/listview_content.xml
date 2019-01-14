@@ -7,8 +7,8 @@
     android:orientation="vertical">
 
     <CheckBox
-        fontPath="fonts/OpenSans-Regular.ttf"
         android:id="@+id/checktext_todo"
+        fontPath="fonts/OpenSans-Regular.ttf"
         android:layout_width="match_parent"
         android:layout_height="64dp"
         android:layout_marginLeft="20dp"
@@ -22,7 +22,6 @@
         android:text="Text"
         android:textAlignment="textStart"
         android:textAllCaps="false"
-        android:textSize="18sp"
-        />
+        android:textSize="18sp" />
 
 </LinearLayout>

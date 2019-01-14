@@ -42,9 +42,9 @@ public class AddTodoActivity extends Activity {
         list_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(selected!= position) {
                     selected = position;
-                }
+                    view.setSelected(true);
+
                 System.out.println(id);
             }
         });

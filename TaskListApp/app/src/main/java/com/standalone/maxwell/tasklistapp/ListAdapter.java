@@ -3,6 +3,7 @@ package com.standalone.maxwell.tasklistapp;
 import android.app.Application;
 import android.content.Context;
 
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,10 +18,8 @@ import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
-import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.ListIterator;
 
 public class ListAdapter extends BaseAdapter{
@@ -93,6 +92,7 @@ public class ListAdapter extends BaseAdapter{
         if(convertView==null) {
             convertView = setupView(position);
         }
+
         holder = (ViewHolder) convertView.getTag();
 
         if(holder!=null) {
@@ -105,6 +105,12 @@ public class ListAdapter extends BaseAdapter{
                 box.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                        if(isChecked)
+                            buttonView.setPaintFlags(buttonView.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
+                        else
+                            buttonView.setPaintFlags(buttonView.getPaintFlags()& Paint.STRIKE_THRU_TEXT_FLAG-1);
+
                         Todo todo = (Todo) buttonView.getTag();
                         System.out.printf("%s:%s\n",isChecked,todo.isCompleted);
                         if(isChecked==todo.isCompleted)return;
@@ -121,6 +127,11 @@ public class ListAdapter extends BaseAdapter{
                             }
                         });
                         todo.isCompleted=isChecked;
+                        if(isChecked)
+                            buttonView.setPaintFlags(buttonView.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
+                        else
+                            buttonView.setPaintFlags(buttonView.getPaintFlags()& Paint.STRIKE_THRU_TEXT_FLAG-1);
+
                     }
                 });
                 box.setChecked(((Todo)getItem(position)).isCompleted);
